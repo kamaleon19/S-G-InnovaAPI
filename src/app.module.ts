@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -19,6 +20,8 @@ import { AppService } from './app.service';
       autoLoadEntities: true,
       synchronize: true // Al estar en un contexto de desarrollo o prueba tecnica dejo el synchronize en true.
     }),
+
+    AuthModule,
 
   ],
   controllers: [AppController],
