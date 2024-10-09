@@ -5,12 +5,14 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { JwtService } from '@nestjs/jwt';
 
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { User } from './entities/user.entity';
 import { CreateUserDto, LoginUserDto } from './dto';
+import { JwtPayload } from './interfaces';
 
 @Injectable()
 export class AuthService {
@@ -19,6 +21,8 @@ export class AuthService {
 
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+
+    private readonly jwtService: JwtService
 
   ) {}
 
@@ -36,7 +40,10 @@ export class AuthService {
 
       delete user.password; // no devolvere la contraseña
 
-      return user;
+      return {
+        ...user,
+        token: this.getJwt({ id: user.id })
+      };
 
     } catch (error) {
 
@@ -60,9 +67,20 @@ export class AuthService {
     if (!bcrypt.compareSync(password, user.password))
       throw new UnauthorizedException('Credenciales invalidas(contraseña).');
 
-    return user;
+    return {
+      ...user,
+      token: this.getJwt({ id: user.id })
+    };
 
   }
+
+
+  private getJwt( payload: JwtPayload){ // Este metodo genera el JWT.
+    const token = this.jwtService.sign( payload )
+    return token
+  }
+
+
 
   private handleDbExceptions(error: any) {
 

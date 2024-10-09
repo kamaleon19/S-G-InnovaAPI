@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from "typeorm"
 
 @Entity()
 export class User {
@@ -31,4 +31,14 @@ export class User {
         default: ['user']
     })
     rol:        string[]
+
+    @BeforeInsert()  // Antes de insertar o actualizar el email en la DB lo paso a minusculas.
+    checkFieldsBeforeInsert(){
+        this.email = this.email.toLowerCase().trim()
+    }
+
+    @BeforeUpdate()
+    checkFieldBeforeUpdate(){
+        this.checkFieldsBeforeInsert
+    }
 }
