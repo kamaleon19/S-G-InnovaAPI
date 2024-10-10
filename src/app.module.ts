@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ProjectsModule } from './projects/projects.module';
 import { CommonModule } from './common/common.module';
+import { TasksModule } from './tasks/tasks.module';
 
 
 @Module({
@@ -29,6 +30,8 @@ import { CommonModule } from './common/common.module';
     ProjectsModule,
 
     CommonModule,
+
+    TasksModule,
 
   ],
   controllers: [AppController],

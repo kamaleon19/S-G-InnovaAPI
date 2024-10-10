@@ -16,6 +16,7 @@ import { CommonModule } from 'src/common/common.module';
     AuthModule,
 
     TypeOrmModule.forFeature([ Project ])
-  ]
+  ],
+  exports: [ ProjectsService, TypeOrmModule ]
 })
 export class ProjectsModule {}

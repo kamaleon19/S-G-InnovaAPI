@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 
 import { User } from "src/auth/entities/user.entity"
+import { Task } from "src/tasks/entities/task.entity"
 
 @Entity()
 export class Project {
@@ -37,5 +38,12 @@ export class Project {
         { eager: true } // Esta configuracion cargara automaticamente la relacion
     )
     user: User
+
+    @OneToMany(
+        () => Task,
+        (task) => task.project,
+        { eager: false }
+    )
+    task: Task
 
 }
