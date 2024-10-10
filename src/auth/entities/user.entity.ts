@@ -1,4 +1,6 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+
+import { Project } from "src/projects/entities/project.entity"
 
 @Entity()
 export class User {
@@ -31,6 +33,17 @@ export class User {
         default: ['user']
     })
     rol:        string[]
+
+    @OneToMany(
+        () => Project,
+        ( project ) => project.user,
+        {
+            eager: false,
+            cascade: true
+        }
+        
+    )
+    project: Project
 
     @BeforeInsert()  // Antes de insertar o actualizar el email en la DB lo paso a minusculas.
     checkFieldsBeforeInsert(){
