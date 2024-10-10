@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ProjectsModule } from './projects/projects.module';
+import { CommonModule } from './common/common.module';
 
 
 @Module({
@@ -26,6 +27,8 @@ import { ProjectsModule } from './projects/projects.module';
     AuthModule,
 
     ProjectsModule,
+
+    CommonModule,
 
   ],
   controllers: [AppController],

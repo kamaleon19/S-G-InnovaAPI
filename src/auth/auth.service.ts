@@ -1,7 +1,5 @@
 import {
-  BadRequestException,
   Injectable,
-  InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,6 +11,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
 import { CreateUserDto, LoginUserDto } from './dto';
 import { JwtPayload } from './interfaces';
+import { CommonService } from 'src/common/common.service';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +21,9 @@ export class AuthService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
 
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
+
+    private readonly commonService: CommonService
 
   ) {}
 
@@ -47,7 +48,8 @@ export class AuthService {
 
     } catch (error) {
 
-      this.handleDbExceptions(error);
+      this.commonService.handleDbExceptions( error )
+
     }
   }
 
@@ -80,14 +82,4 @@ export class AuthService {
     return token
   }
 
-
-
-  private handleDbExceptions(error: any) {
-
-    if (error.code === '23505') {
-      throw new BadRequestException(error.detail);
-    }
-
-    throw new InternalServerErrorException('Please check server logs.');
-  }
 }
