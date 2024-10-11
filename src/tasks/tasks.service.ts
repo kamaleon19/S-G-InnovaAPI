@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
@@ -59,7 +59,7 @@ export class TasksService {
 
 
     } catch (error) {
-      
+      throw new InternalServerErrorException('Something went wrong, please talk to the developer ')
     }
   }
 
